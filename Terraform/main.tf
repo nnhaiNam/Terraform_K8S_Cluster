@@ -71,6 +71,8 @@ module "bastion_host" {
   
 }
 
+####### K8s cluster ###########
+
 module "master_node_01" {
   source = "./modules/ec2"
   ami=var.ami
@@ -83,7 +85,7 @@ module "master_node_01" {
   private_ip = "192.168.1.111"
   iam_instance_profile=module.iam_instance_profile.instance_profile_name
   user_data = templatefile("${path.module}/scripts/bootstrap-master-01.tpl", {
-    install_script = file("${path.module}/scripts/install-core-components.sh")
+    install_script = file("${path.module}/scripts/install-core-components-k8s.sh")
     master_script  = file("${path.module}/scripts/master-01.sh")
   })  
 
@@ -101,7 +103,7 @@ module "master_node_02" {
   private_ip = "192.168.1.112"
   iam_instance_profile=module.iam_instance_profile.instance_profile_name
   user_data = templatefile("${path.module}/scripts/bootstrap-master-02.tpl", {
-    install_script = file("${path.module}/scripts/install-core-components.sh")
+    install_script = file("${path.module}/scripts/install-core-components-k8s.sh")
     master_script  = file("${path.module}/scripts/master-02.sh")
   })
 
@@ -119,10 +121,79 @@ module "master_node_03" {
   private_ip = "192.168.1.113"
   iam_instance_profile=module.iam_instance_profile.instance_profile_name
   user_data = templatefile("${path.module}/scripts/bootstrap-master-03.tpl", {
-    install_script = file("${path.module}/scripts/install-core-components.sh")
+    install_script = file("${path.module}/scripts/install-core-components-k8s.sh")
     master_script  = file("${path.module}/scripts/master-03.sh")
   })
 }
 
+######## LB cluster ##########
 
+module "load_balancer_01" {
+  source = "./modules/ec2"
+  ami=var.ami
+  instance_type=var.instance_type_for_load_balancer
+  subnet_id=module.vpc.public_subnet_ids[0]
+  security_group_ids=[module.security_groups.public_sg_id]
+  key_name=var.key_name
+  instance_name="Load Balancer 01"
+  associate_public_ip=true  
+  private_ip = "192.168.1.109"
+  iam_instance_profile=module.iam_instance_profile.instance_profile_name
+  user_data = templatefile("${path.module}/scripts/bootstrap-load_balancer-01.tpl", {
+    install_script = file("${path.module}/scripts/install-core-components-load_balancer.sh")
+    master_script  = file("${path.module}/scripts/load_balancer-01.sh")
+  })  
+}
 
+module "load_balancer_02" {
+  source = "./modules/ec2"
+  ami=var.ami
+  instance_type=var.instance_type_for_load_balancer
+  subnet_id=module.vpc.public_subnet_ids[0]
+  security_group_ids=[module.security_groups.public_sg_id]
+  key_name=var.key_name
+  instance_name="Load Balancer 02"
+  associate_public_ip=true  
+  private_ip = "192.168.1.110"
+  iam_instance_profile=module.iam_instance_profile.instance_profile_name
+  user_data = templatefile("${path.module}/scripts/bootstrap-load_balancer-02.tpl", {
+    install_script = file("${path.module}/scripts/install-core-components-load_balancer.sh")
+    master_script  = file("${path.module}/scripts/load_balancer-02.sh")
+  })  
+}
+
+######### Jenkins server ##########
+
+module "jenkins" {
+  source = "./modules/ec2"
+  ami=var.ami
+  instance_type=var.instance_type_for_load_balancer
+  subnet_id=module.vpc.public_subnet_ids[0]
+  security_group_ids=[module.security_groups.public_sg_id]
+  key_name=var.key_name
+  instance_name="Jenkins"
+  associate_public_ip=true
+  iam_instance_profile=module.iam_instance_profile.instance_profile_name
+  user_data = templatefile("${path.module}/scripts/bootstrap-jenkins.tpl", {
+    install_script = file("${path.module}/scripts/install-core-components-jenkins.sh")
+    master_script  = file("${path.module}/scripts/jenkins.sh")
+  })  
+}
+
+########### Rancher server ############
+
+module "rancher" {
+  source = "./modules/ec2"
+  ami=var.ami
+  instance_type=var.instance_type_for_load_balancer
+  subnet_id=module.vpc.public_subnet_ids[0]
+  security_group_ids=[module.security_groups.public_sg_id]
+  key_name=var.key_name
+  instance_name="Rancher"
+  associate_public_ip=true
+  iam_instance_profile=module.iam_instance_profile.instance_profile_name
+  user_data = templatefile("${path.module}/scripts/bootstrap-rancher.tpl", {
+    install_script = file("${path.module}/scripts/install-core-components-rancher.sh")
+    master_script  = file("${path.module}/scripts/rancher.sh")
+  })  
+}

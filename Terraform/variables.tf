@@ -42,6 +42,11 @@ variable "instance_type_for_k8s" {
   description = "Instance Type for Master Node 1,2,3"
 }
 
+variable "instance_type_for_load_balancer" {
+  type = string
+  description = "Instance Type for Load Balance 1,2"
+}
+
 variable "key_name" {
   type = string
   description = "Name of file PEM"  
