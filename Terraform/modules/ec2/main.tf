@@ -11,6 +11,11 @@ resource "aws_instance" "ec2" {
     tags = {
         Name=var.instance_name
     }
+    root_block_device {
+      volume_size = var.volume_size
+      volume_type = "gp3"
+      delete_on_termination = true
+    }
 }
 
 # Elastic IP for Public EC2 instance

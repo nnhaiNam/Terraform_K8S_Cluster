@@ -12,5 +12,15 @@ ami= "ami-01938df366ac2d954"
 
 instance_type_bastion_host= "t2.micro"
 instance_type_for_k8s="t2.medium"
+instance_type_for_rancher = "t2.medium"
+instance_type_for_jenkins = "t2.medium"
+instance_type_for_nfs = "t2.small"
 
-key_name="harinemkey-singapore"     
+key_name="harinemkey-singapore"
+
+ip_targets=["192.168.1.111","192.168.1.112","192.168.1.113"]
+target_port_for_nlb=80
+target_port_for_target_group=30080
+health_check_port=30080
+target_port_for_nlb_attachment=30080
+

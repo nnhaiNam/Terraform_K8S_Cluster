@@ -53,3 +53,9 @@ variable "iam_instance_profile" {
   description = "Name of IAM instance profile"
   type        = string
 }
+
+variable "volume_size" {
+  description = "Size of root disk for EC2 instance"
+  type        = number
+}
+

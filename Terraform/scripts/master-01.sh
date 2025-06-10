@@ -65,3 +65,39 @@ kubectl --kubeconfig /home/ubuntu/.kube/config taint nodes k8s-master-1 node-rol
 kubectl --kubeconfig /home/ubuntu/.kube/config taint nodes k8s-master-2 node-role.kubernetes.io/control-plane:NoSchedule-
 kubectl --kubeconfig /home/ubuntu/.kube/config taint nodes k8s-master-3 node-role.kubernetes.io/control-plane:NoSchedule-
 
+
+#Install Helm
+sudo wget https://get.helm.sh/helm-v3.18.2-linux-amd64.tar.gz
+sudo tar xvf helm-v3.18.2-linux-amd64.tar.gz
+sudo mv linux-amd64/helm /usr/bin/
+
+# Install Nginx Ingress Controller
+kubectl --kubeconfig /home/ubuntu/.kube/config create namespace ingress-nginx 
+kubectl --kubeconfig /home/ubuntu/.kube/config create serviceaccount nginx-ingress-controller
+kubectl --kubeconfig create clusterrolebinding nginx-ingress-controller --clusterrole=cluster-admin --serviceaccount=default:nginx-ingress-controller
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+# helm install nginx-ingress ingress-nginx/ingress-nginx \
+#   --namespace ingress-nginx --create-namespace \
+#   --set controller.service.type=NodePort \
+#   --set controller.service.nodePorts.http=30080 \
+#   --set controller.service.nodePorts.https=30443 \
+#   --set controller.admissionWebhooks.enabled=false \
+#   --set controller.admissionWebhooks.patch.enabled=false \
+#    --kubeconfig /home/ubuntu/.kube/config
+ 
+helm install nginx-ingress ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx --create-namespace \
+  --set controller.kind=DaemonSet \
+  --set controller.hostPort.enabled=true \
+  --set controller.service.type=NodePort \
+  --set controller.service.nodePorts.http=30080 \
+  --set controller.service.nodePorts.https=30443 \
+  --set controller.admissionWebhooks.enabled=false \
+  --set controller.admissionWebhooks.patch.enabled=false \
+  --kubeconfig /home/ubuntu/.kube/config
+
+
+#Install ArgoCD
+kubectl --kubeconfig /home/ubuntu/.kube/config create namespace argocd
+kubectl --kubeconfig /home/ubuntu/.kube/config apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml

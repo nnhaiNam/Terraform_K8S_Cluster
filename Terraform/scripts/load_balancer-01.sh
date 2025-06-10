@@ -45,7 +45,7 @@ vrrp_script chk_haproxy {
 }
 
 vrrp_instance VI_1 {
-    interface ens33
+    interface enX0
     state MASTER
     priority 200
     virtual_router_id 51
@@ -57,7 +57,7 @@ vrrp_instance VI_1 {
     }
 
     virtual_ipaddress {
-        192.168.189.100/24
+        192.168.1.50/26
     }
 
     track_script {
@@ -73,3 +73,6 @@ sudo systemctl restart haproxy
 
 sudo systemctl enable keepalived
 sudo systemctl restart keepalived
+
+echo "#################################"
+sudo echo "Finish Install"

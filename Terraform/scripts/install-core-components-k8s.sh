@@ -1,8 +1,6 @@
 #!/bin/bash
 
 sudo tee -a /etc/hosts <<EOF
-192.168.1.109 load_balancer-1
-192.168.1.110 load_balancer-2
 192.168.1.111 k8s-master-1
 192.168.1.112 k8s-master-2
 192.168.1.113 k8s-master-3
@@ -10,6 +8,9 @@ EOF
 
 #Update and upgrade system
 sudo apt update -y && sudo apt upgrade -y
+
+#Install NFS Client
+sudo apt install nfs-common -y
 
 #Install unzip
 echo "===== install aws-cli ====="
