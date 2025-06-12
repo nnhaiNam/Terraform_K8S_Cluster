@@ -158,7 +158,7 @@ module "jenkins_server" {
   instance_name = "Jenkins Server"
   associate_public_ip=true
   iam_instance_profile = ""
-  user_data =  templatefile("${path.module}/scripts/jenkins-server.sh", {}) 
+  user_data =  templatefile("${path.module}/scripts/jenkins-server.sh", {})
 }
 
 #EC2 NFS-Server
@@ -214,8 +214,19 @@ module "target_group_http" {
   protocol="TCP"
   vpc_id=module.vpc.vpc_id
   target_type = "ip"
-  target_port = var.target_port_for_target_group
-  health_check_port=var.health_check_port
+  target_port = var.target_port_for_target_group_http
+  health_check_port=var.health_check_port_http
+  
+}
+
+module "target_group_https" {
+  source = "./modules/target_groups"
+  name="Target-Group-HTTPS"
+  protocol = "TCP"
+  vpc_id = module.vpc.vpc_id
+  target_type = "ip"
+  target_port = var.target_port_for_target_group_https
+  health_check_port = var.health_check_port_https
   
 }
 
@@ -224,17 +235,28 @@ module "target_group_http" {
 module "nlb" {
   source = "./modules/nlb"
   subnet_ids = module.vpc.public_subnet_ids
-  target_port = var.target_port_for_nlb
-  aws_lb_target_group = module.target_group_http.target_group_arn
+  target_port_http = var.target_port_for_listener_http
+  target_port_https = var.target_port_for_listener_https
+  aws_lb_target_group_http = module.target_group_http.target_group_arn
+  aws_lb_target_group_https=module.target_group_https.target_group_arn
   
 }
 
 #Attachment NLB and Target Groups
-module "lb_target_groups_attachment" {
+module "lb_target_groups_attachment_http" {
   source = "./modules/lb_target_groups_attachment"
   ip_targets = var.ip_targets
   target_group_arn=module.target_group_http.target_group_arn
-  target_port=var.target_port_for_nlb_attachment
+  target_port=var.target_port_for_nlb_attachment_http
+  depends_on = [module.vpc, module.target_group_http, module.master_node_01,module.master_node_02, module.master_node_03]
+}
+
+module "lb_target_groups_attachment_https" {
+  source = "./modules/lb_target_groups_attachment"
+  ip_targets = var.ip_targets
+  target_group_arn=module.target_group_https.target_group_arn
+  target_port=var.target_port_for_nlb_attachment_https
+  depends_on = [module.vpc, module.target_group_http, module.master_node_01,module.master_node_02, module.master_node_03]
 }
 
 

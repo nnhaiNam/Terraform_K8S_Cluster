@@ -23,6 +23,13 @@ sudo systemctl enable jenkins
 sudo systemctl start jenkins
 
 
+# Install Docker
+sudo apt install docker.io -y
+sudo usermod -aG docker jenkins
+#Install SonarQube
+sudo docker run -d -p 9000:9000 --name sonarqube sonarqube:lts-community
+
+
 # Reboot to load new kernel (important)
 echo ">> Rebooting to apply new kernel..."
 sudo reboot

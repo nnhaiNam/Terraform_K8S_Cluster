@@ -67,19 +67,39 @@ variable "ip_targets" {
   
 }
 
-variable "target_port_for_nlb" {
-  type = number  
+
+variable "target_port_for_target_group_http" {
+  type = number
+  
 }
 
-variable "target_port_for_target_group" {
+variable "target_port_for_target_group_https" {
   type = number
   
 }
-variable "health_check_port" {
+variable "health_check_port_http" {
   type = number
   
 }
-variable "target_port_for_nlb_attachment" {
+variable "health_check_port_https" {
   type = number
+  
+}
+variable "target_port_for_nlb_attachment_http" {
+  type = number
+  
+}
+variable "target_port_for_nlb_attachment_https" {
+  type = number
+  
+}
+
+variable "target_port_for_listener_http" {
+  type = string
+  
+}
+
+variable "target_port_for_listener_https" {
+  type = string
   
 }

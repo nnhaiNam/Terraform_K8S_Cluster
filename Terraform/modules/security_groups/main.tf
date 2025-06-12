@@ -260,6 +260,14 @@ resource "aws_security_group" "sg_jenkins" {
         description = "Allow HTTPS requests"
     }
 
+    ingress {
+        from_port = 9000
+        to_port = 9000
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "Allow SonarQube"
+    }
+
     egress {
         from_port   = 0
         to_port     = 0
@@ -284,6 +292,14 @@ resource "aws_security_group" "sg_nfs" {
         protocol = "tcp"
         security_groups = [aws_security_group.public_sg.id]
         description = "Allow SSH for instance in public subnet"
+    }
+
+    ingress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["192.168.1.0/24"] 
+        description = "Allow internal traffic for NFS Server"
     }
 
 
