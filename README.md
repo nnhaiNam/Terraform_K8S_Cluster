@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/b239685c-79ab-4c1b-b721-4356949e1f02)# 📦 Book-Reviews Terraform Infrastructure
+# 📦 Book-Reviews Terraform Infrastructure
 
 ## 📌 Overview
 
