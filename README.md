@@ -19,7 +19,6 @@ EC2 Instances for self-hosted Kubernetes cluster (via kubeadm)
 Elastic IPs for NAT and Bastion access
 
 
-<pre lang="md"> ## 🛠️ Modules Structure ``` . ├── modules/ │ ├── vpc/ │ ├── ec2/ │ ├── security-group/ │ └── ... ├── main.tf ├── variables.tf ├── outputs.tf └── terraform.tfvars ``` Each module is reusable and self-contained. `main.tf` wires together all modules with specific configurations. </pre>
 
 ## 🚀 How to Use
 
