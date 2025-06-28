@@ -1,4 +1,4 @@
-# 📦 Book-Reviews Terraform Infrastructure
+![image](https://github.com/user-attachments/assets/b239685c-79ab-4c1b-b721-4356949e1f02)# 📦 Book-Reviews Terraform Infrastructure
 
 ## 📌 Overview
 
@@ -16,9 +16,13 @@ Security Groups for EC2 and Kubernetes components
 
 EC2 Instances for self-hosted Kubernetes cluster (via kubeadm)
 
-Elastic IPs for NAT and Bastion access
+Jenkins Server for CI/CD automation, hosted on a dedicated EC2 instance
 
+Harbor Registry for private Docker image storage and vulnerability scanning
 
+Rancher Server for Kubernetes cluster management and dashboard UI
+
+Network Load Balancer (NLB) to expose Ingress NGINX Controller in the private Kubernetes cluster
 
 ## 🚀 How to Use
 
@@ -51,5 +55,4 @@ SSH key pair for EC2 access
 ## 🔗 GitOps Repository
 - 📁 [book-reviews-gitops](https://github.com/nnhaiNam/book-reviews-gitops.git)  
     _Contains K8s manifests, Ingress, Argo CD configs and Slack alert rules for GitOps deployment._
-
 
