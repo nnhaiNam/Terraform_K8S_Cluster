@@ -6,23 +6,23 @@ This repository contains Terraform code to provision and manage the cloud infras
 
 ## ⚙️ Infrastructure Components
 
-VPC with public/private subnets
++ VPC with public/private subnets
 
-Internet Gateway and NAT Gateway
++ Internet Gateway and NAT Gateway
 
-Route Tables for subnet routing
++ Route Tables for subnet routing
 
-Security Groups for EC2 and Kubernetes components
++ Security Groups for EC2 and Kubernetes components
 
-EC2 Instances for self-hosted Kubernetes cluster (via kubeadm)
++ EC2 Instances for self-hosted Kubernetes cluster (via kubeadm)
 
-Jenkins Server for CI/CD automation, hosted on a dedicated EC2 instance
++ Jenkins Server for CI/CD automation, hosted on a dedicated EC2 instance
 
-Harbor Registry for private Docker image storage and vulnerability scanning
++ Harbor Registry for private Docker image storage and vulnerability scanning
 
-Rancher Server for Kubernetes cluster management and dashboard UI
++ Rancher Server for Kubernetes cluster management and dashboard UI
 
-Network Load Balancer (NLB) to expose Ingress NGINX Controller in the private Kubernetes cluster
++ Network Load Balancer (NLB) to expose Ingress NGINX Controller in the private Kubernetes cluster
 
 ## 🚀 How to Use
 
