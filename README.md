@@ -1,10 +1,10 @@
-📦 Book-Reviews Terraform Infrastructure
+# 📦 Book-Reviews Terraform Infrastructure
 
-📌 Overview
+## 📌 Overview
 
 This repository contains Terraform code to provision and manage the cloud infrastructure for the Book-Reviews App.It is responsible for setting up all required AWS resources to support a GitOps-based CI/CD deployment.
 
-⚙️ Infrastructure Components
+## ⚙️ Infrastructure Components
 
 VPC with public/private subnets
 
@@ -18,11 +18,8 @@ EC2 Instances for self-hosted Kubernetes cluster (via kubeadm)
 
 Elastic IPs for NAT and Bastion access
 
-S3 Bucket (optional) for remote backend
 
-Key Pair management for SSH
-
-🛠️ Modules Structure
+## 🛠️ Modules Structure
 
 .
 ├── modules/
@@ -39,7 +36,7 @@ Each module is reusable and self-contained.
 
 main.tf wires together all modules with specific configurations.
 
-🚀 How to Use
+** 🚀 How to Use
 
 1. Initialize Terraform
 
@@ -53,7 +50,7 @@ terraform plan -var-file="terraform.tfvars"
 
 terraform apply -var-file="terraform.tfvars"
 
-💪 Environment Requirements
+## 💪 Environment Requirements
 
 Terraform CLI >= 1.0
 
@@ -61,18 +58,14 @@ AWS CLI configured with access keys
 
 SSH key pair for EC2 access
 
-Backend setup (optional): S3 + DynamoDB
 
-🔐 Security Considerations
+## 🔗 Source Code Repository
+- 📁 [Book-Reviews](https://github.com/nnhaiNam/Book-Reviews.git)  
+    _Contains the full source code of the application._
+  
 
-Secrets and sensitive files (e.g., terraform.tfstate) should not be committed.
+## 🔗 GitOps Repository
+- 📁 [book-reviews-gitops](https://github.com/nnhaiNam/book-reviews-gitops.git)  
+    _Contains K8s manifests, Ingress, Argo CD configs and Slack alert rules for GitOps deployment._
 
-Use remote backends and IAM policies to protect state files.
 
-Enforce security group checks with tools like Checkov.
-
-🧑‍💻 Related Repositories
-
-🔧 Book-Reviews App — Source code
-
-🚀 book-reviews-gitops — GitOps deployment & K8s manifests
